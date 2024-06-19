@@ -21,15 +21,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function getBotResponse(message) {
     try {
-      const response = await fetch('https://api.openai.com/v1/engines/text-davinci-003/completions', {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer sk-proj-tHAqpfwTFSRpClTEEN0hT3BlbkFJOIWbznS1KOiWhbatswlC`
+          'Authorization': `Bearer sk-proj-vSHx1V4C28LhuMjvPDdZT3BlbkFJibfRv401sJNPAkFh3rGd`
         },
         body: JSON.stringify({
-          prompt: message,
-          max_tokens: 150
+          model: "gpt-3.5-turbo",
+          messages: [
+            {
+              role: "user",
+              content: message
+            }
+          ]
         })
       });
 
@@ -39,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const data = await response.json();
       console.log('API response:', data);  // Add debugging info
-      return data.choices[0].text.trim();
+      return data.choices[0].message.content.trim();
     } catch (error) {
       console.error('Error in getBotResponse:', error);
       throw error;
