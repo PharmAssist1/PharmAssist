@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer YOUR_API_KEY`
+        'Authorization': `Bearer sk-proj-6muneZyCyKjMgRqXFDWsT3BlbkFJEt4YMthdTcTENKZGzAze`
       },
       body: JSON.stringify({
         prompt: message,
