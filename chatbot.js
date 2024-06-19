@@ -10,8 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     displayMessage('User', userMessage);
     userInput.value = '';
 
-    const botResponse = await getBotResponse(userMessage);
-    displayMessage('Bot', botResponse);
+    try {
+      const botResponse = await getBotResponse(userMessage);
+      displayMessage('Bot', botResponse);
+    } catch (error) {
+      console.error('Error fetching bot response:', error);
+      displayMessage('Bot', 'Sorry, I am having trouble responding right now.');
+    }
   });
 
   async function getBotResponse(message) {
@@ -26,6 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
         max_tokens: 150
       })
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
     const data = await response.json();
     return data.choices[0].text.trim();
   }
