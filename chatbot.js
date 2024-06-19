@@ -20,24 +20,30 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   async function getBotResponse(message) {
-    const response = await fetch('https://api.openai.com/v1/engines/davinci-codex/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer sk-proj-6muneZyCyKjMgRqXFDWsT3BlbkFJEt4YMthdTcTENKZGzAze`
-      },
-      body: JSON.stringify({
-        prompt: message,
-        max_tokens: 150
-      })
-    });
+    try {
+      const response = await fetch('https://api.openai.com/v1/engines/text-davinci-003/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer sk-proj-tHAqpfwTFSRpClTEEN0hT3BlbkFJOIWbznS1KOiWhbatswlC`
+        },
+        body: JSON.stringify({
+          prompt: message,
+          max_tokens: 150
+        })
+      });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('API response:', data);  // Add debugging info
+      return data.choices[0].text.trim();
+    } catch (error) {
+      console.error('Error in getBotResponse:', error);
+      throw error;
     }
-
-    const data = await response.json();
-    return data.choices[0].text.trim();
   }
 
   function displayMessage(sender, message) {
